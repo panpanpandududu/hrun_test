@@ -1,0 +1,19 @@
+config:
+  name: 用户注册测试用例
+  base_url: http://49.235.92.12:8201
+  variables:
+    user: ${register_user()}
+    psw: "123456"
+teststeps:
+-
+  name: step-注册
+  request:
+    url: /api/v1/register
+    method: POST
+    json:
+      username: $user
+      password: $psw
+    validate:
+     -eq : [content.code, 0]
+     -eq : [content.msg , register success!]
+

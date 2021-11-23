@@ -1,0 +1,18 @@
+config:
+    name: 上传文件
+    base_url: http://49.235.92.12:8201
+
+teststeps:
+-
+    name: upload file
+    request:
+        url: http://httpbin.org/upload
+        method: POST
+        headers:
+            Cookie: session=AAA-BBB-CCC
+        upload:
+            file: "data/pic.jpg"
+            field1: "value1"
+            field2: "value2"
+    validate:
+        - eq: ["status_code", 200]

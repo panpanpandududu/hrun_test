@@ -1,0 +1,32 @@
+config:
+ name: 登录签名sign测试用例
+ base_url: http://49.235.92.12:8201
+ variables:
+   user: test1
+   psw: "123456x"
+
+teststeps:
+-
+  name: sign测试用例
+  setup_hooks:
+    - ${setup_hook()}
+    - ${get_sign($request)}
+
+  request:
+    url:  /api/v1/login
+    method: POST
+    json:
+      account: $user
+      captcha: $psw
+      password: xxxx
+      uuid:
+
+  teardown_hooks:
+    - ${teardown_hook()}
+
+  validate:
+  - eq: [status_code,200]
+  - eq: [body.msg,login success!]
+  - eq: [body.code,0]
+  - eq: [body.username,$user]
+

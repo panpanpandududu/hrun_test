@@ -1,0 +1,35 @@
+config:
+    name: 用例描述-登录用例
+    base_url: http://49.235.92.12:8201
+    variables:
+        user: test1
+        psw: "123456"
+    export:
+    - token
+
+teststeps:
+-
+    name: step-登录
+    setup_hooks:
+        - ${setup_hook()}
+        - ${request_sign($request)}
+    request:
+        url: /api/v1/login
+        method: POST
+        json:
+            username: $user
+            password: $psw
+    teardown_hooks:
+        - ${teardown_hook()}
+        - ${response_status($response)}
+
+    extract:
+        token: body.token
+    validate:
+        - eq: [status_code, 200]
+        - eq: [body.msg, login success!]
+        - eq: [body.code, 0]
+        - eq: [body.username, $user]
+        - len_eq: [body.token, 40]
+
+#命令 hrun login_hook.yml -s    可查看详细日志

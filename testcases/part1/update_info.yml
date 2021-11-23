@@ -1,0 +1,50 @@
+config:
+    name: 修改个人信息
+    base_url: http://49.235.92.12:8201
+    # variables:
+    #     psw: "123456"
+
+    # #一：yaml/json参数化数据驱动,适合参数列表比较小
+    # #多对一
+    # parameters:
+    #    user: [test1,test2,test3]
+
+    # #多对多,即多个参数一一对应
+    # parameters:
+    #    user-psw:
+    #    - [test1,'123456']
+    #    - [test2,'123456']
+    #    - [test3,'123456']
+
+    # #笛卡尔积 组合参数 如：账号有四种，密码也有四种
+    # parameters:
+    #    user: [test1,test2,test3]
+    #    psw: ['123456','123456','123456']
+
+    #二:参数化引用csv文件,适合数据量大
+    parameters:
+        user-psw: ${P(data/user_psw.csv)}    #根据项目根目录查找路径（以debugtalk.py位置为根目录）
+
+    #三:参数化引用debugtalk.py函数
+
+
+teststeps:
+-
+    name: step1-login
+    testcase: testcases/part1/login.yml
+
+-
+    name: step2- update info
+    request:
+        url: /api/v1/userinfo
+        headers:
+            Authorization: Token $token
+        method: POST
+        json:
+            name: $user
+            sex: M
+            age: 20
+            mail: 283340479@qq.com
+    validate:
+    - eq: [status_code, 200]
+    - eq: [body.code, 0]

@@ -1,0 +1,35 @@
+config:
+    name: 用例描述
+    base_url: http://49.235.92.12:8201
+    # variables:
+    #   user: test1
+    #   psw: "123456"
+    parameters:
+        #csv数据驱动
+        # user-psw: ${P(data/user_psw.csv)}
+
+        #debugtalk()函数
+        # user: ${get_user()}
+        # psw: ${get_psw()}
+
+        user-psw: ${get_user_psw(3)}
+    export:
+    - token
+
+teststeps:
+-
+    name: step-登录
+    request:
+        url: /api/v1/login
+        method: POST
+        json:
+            username: $user
+            password: $psw
+    extract:
+        token: body.token
+    validate:
+        - eq: [status_code, 200]
+        - eq: [body.msg, login success!]
+        - eq: [body.code, 0]
+        - eq: [body.username, $user]
+        - len_eq: [body.token, 40]

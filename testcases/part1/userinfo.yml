@@ -1,0 +1,42 @@
+config:
+   name: 用户信息
+   base_url: http://49.235.92.12:8201
+   variables:
+      user: test
+      psw: "123456"
+   export:
+      - token   #将token导出转化为全局变量，便于其他测试用例引用
+
+teststeps:
+-
+  name: 用户登录
+  request:
+    url: /api/v1/login
+    method: POST
+    json:
+      username: $user
+      password: $psw
+
+  extract:
+     token: body.token
+  validate:
+    - eq: [status_code,200]
+    - eq: [body.msg, login success!]
+    - eq: [body.code,0]
+
+-
+  name: 用户信息
+  request:
+    url: /api/v1/userinfo
+    method: POST
+    headers:
+      Authorization: token $token
+    json:
+      name: $user
+      sex: M
+      age: 20
+      email: 283340479@qq.com
+  validate:
+    - eq: [status_code,200]
+    - eq: [body.code,0]
+

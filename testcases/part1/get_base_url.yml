@@ -1,0 +1,18 @@
+config:
+  name: get_test
+  base_url: http://49.235.92.12:8201
+
+teststeps:
+-
+  name: get_test
+  request:
+      method: GET
+      url: /api/v1/goods
+      params:
+          page: 1
+          size: 2
+
+validate:
+    - eq: [status_code, 200]
+    - eq: [body.code, 0]
+    - eq: [body.msg, 成功success!]
