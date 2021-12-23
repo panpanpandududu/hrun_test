@@ -1,0 +1,29 @@
+config:
+  name: 用例描述-无效登录参数化
+  base_url: ${ENV(base_url)}
+  variables:
+    user: test
+    psw: 123456
+  export:
+  - token
+
+teststeps:
+- 
+  name: step-登录
+  request:
+    url: /api/v1/login
+    method: POST
+    json:
+      username: $user
+      password: $psw
+  extract:
+    token: body.token
+    
+  validate:
+  - eq: [status_code,200]  
+  - eq: [body.msg, login success!]    
+  - eq: [body.username, $user]
+  - eq: [body.code,0]
+
+
+

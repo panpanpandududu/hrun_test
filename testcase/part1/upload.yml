@@ -14,5 +14,5 @@ teststeps:
             file: "data/pic.jpg"
             field1: "value1"
             field2: "value2"
-    validate:
-        - eq: ["status_code", 200]
+    # validate:
+    #     - eq: ["status_code", 200]

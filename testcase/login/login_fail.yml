@@ -1,0 +1,25 @@
+config:
+  name: 用例描述-无效登录参数化
+  base_url: ${ENV(base_url)}
+  parameters:
+    user-psw:
+      - [xxyyzz,"123456"]     #账号错误，密码正确
+      - [test123,"111111"]    #账号正确，密码错误
+      - ['','']               #账号密码为空
+
+teststeps:
+- 
+  name: step-登录
+  request:
+      url: /api/v1/login
+      method: POST
+      json:
+        username: $user
+        password: $psw
+    
+  validate:
+  - eq: [status_code,200]  
+  - eq: [body.code, 3003]    
+
+
+

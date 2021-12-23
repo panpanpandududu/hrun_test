@@ -31,7 +31,7 @@ config:
 teststeps:
 -
     name: step1-login
-    testcase: testcases/part1/login.yml
+    testcase: testcase/part1/login.yml
 
 -
     name: step2- update info

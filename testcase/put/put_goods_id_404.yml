@@ -1,0 +1,33 @@
+#其他参数异常传参也做一个单独的测试用例集
+config:
+  name: 修改接口商品ID是否正确
+  base_url: ${ENV(base_url)}
+  parameters: 
+    id: ["", "abc",None]   #空，非数字，null的情况
+
+teststeps:
+-
+  name: step1
+  testcase: testcase/login/login_success.yml
+
+-
+  name: step2
+  request: 
+    url: /api/v2/goods/$id
+    method: PUT
+    headers:
+      Authorization: Token $token
+    json:
+      goodsname: "pan"
+      goodscode: "sp_test1"
+      merchantid: "10001"
+      goodsprice: 99.9
+      stock: 100
+      goodsgroupid: 0
+      goodsstatus: 1
+      price: 21.0
+
+  validate:
+    - eq: [status_code,200]
+
+

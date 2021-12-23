@@ -20,7 +20,7 @@ def get_psw():
 
 def get_user_psw(num):
     accounts = []
-    for i in range(1, num + 1):
+    for i in range(1, num + 1):   #range(start,stop)  #不包括stop
         accounts.append(
             {'user': "test%s" % i,
              'psw': "123456"}
@@ -32,8 +32,14 @@ def get_user_psw(num):
 def register_user():
     ''' 生成带时间戳的注册账号'''
     user = "test"+str(int(time.time()))
+    time.sleep(1)
     return user
 
+#随机生成商品编号
+def goods_code():
+    time.sleep(1)
+    goodscode = "sp_" + str(int(time.time()*100))
+    return goodscode
 
 # hook机制
 def setup_hook():
